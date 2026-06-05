@@ -1,0 +1,100 @@
+# ==========================
+# IntelliJ IDEA
+# ==========================
+.idea/
+*.iml
+out/
+
+# ==========================
+# Maven
+# ==========================
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# ==========================
+# Java
+# ==========================
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# ==========================
+# Spring Boot
+# ==========================
+logs/
+*.log
+spring.log
+
+# ==========================
+# OS Files
+# ==========================
+.DS_Store
+Thumbs.db
+
+# ==========================
+# Environment Variables
+# ==========================
+.env
+.env.*
+application-local.yml
+application-local.properties
+
+# ==========================
+# VS Code
+# ==========================
+.vscode/
+
+# ==========================
+# Eclipse
+# ==========================
+.project
+.classpath
+.settings/
+
+# ==========================
+# NetBeans
+# ==========================
+nbproject/private/
+build/
+dist/
+
+# ==========================
+# Temporary Files
+# ==========================
+*.tmp
+*.swp
+*~
+
+# ==========================
+# Maven Wrapper (Keep)
+# ==========================
+!.mvn/
+!mvnw
+!mvnw.cmd
+
+# ==========================
+# Generated Reports
+# ==========================
+surefire-reports/
+failsafe-reports/
+
+# ==========================
+# Coverage Reports
+# ==========================
+coverage/
+jacoco.exec
+/site/
+
+# ==========================
+# Docker
+# ==========================
+docker-compose.override.yml
+
+# ==========================
+# Microservice-specific
+# ==========================
+**/target/
+**/logs/
+**/*.log
