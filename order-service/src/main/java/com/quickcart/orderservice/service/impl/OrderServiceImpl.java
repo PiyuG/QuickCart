@@ -5,12 +5,15 @@ import com.quickcart.orderservice.dto.InventoryResponse;
 import com.quickcart.orderservice.dto.OrderRequest;
 import com.quickcart.orderservice.dto.OrderResponse;
 import com.quickcart.orderservice.entity.Order;
+import com.quickcart.orderservice.event.OrderPlacedEvent;
+import com.quickcart.orderservice.kafka.OrderEventProducer;
 import com.quickcart.orderservice.mapper.OrderMapper;
 import com.quickcart.orderservice.repository.OrderRepository;
 import com.quickcart.orderservice.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -20,6 +23,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
     private final InventoryFeignClient inventoryFeignClient;
+    private final OrderEventProducer orderEventProducer;
 
     @Override
     public OrderResponse placeOrder(OrderRequest orderRequest) {
@@ -28,9 +32,20 @@ public class OrderServiceImpl implements OrderService {
         if(!response.isInStock()){
             throw new RuntimeException("Product is out of stock");
         }
-        order.setOrderNumber(UUID.randomUUID().toString());
+        String orderId=UUID.randomUUID().toString();
+        order.setOrderNumber(orderId);
         order.setOrderStatus("CREATED");
         orderRepository.save(order);
+
+        OrderPlacedEvent event=new OrderPlacedEvent();
+        event.setEventId(UUID.randomUUID().toString());
+        event.setOrderId(orderId);
+        event.setSkuCode(orderRequest.getSkuCode());
+        event.setQuantity(orderRequest.getQuantity());
+        event.setEventType("ORDER_PLACE");
+        event.setEvenTime(LocalDateTime.now());
+        orderEventProducer.sendOderEvent(event);
+
         return orderMapper.toResponse(order);
     }
 }
