@@ -26,4 +26,8 @@ public class Inventory {
     @NotNull
     private Integer quantity;
 
+    private Integer reservedStock=0;
+
+    private Integer soldStock=0;
+
 }

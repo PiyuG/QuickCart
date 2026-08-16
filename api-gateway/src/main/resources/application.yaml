@@ -10,15 +10,90 @@ spring:
           lower-case-service-id: true
 
       routes:
+
+        # =========================
+        # USER SERVICE
+        # =========================
         - id: user-service
-          uri: lb://user-service
+          uri: lb://USER-SERVICE
           predicates:
-            - Path=/user/**
+            - Path=/api/users/**
           filters:
-            - CustomRouteFilter
+            - name: CustomRouteFilter
+
+        - id: inventory-service
+          uri: lb://INVENTORY-SERVICE
+          predicates:
+            - Path=/api/inventory/**
+          filters:
+            - name: CustomRouteFilter
+
+        # =========================
+        # PRODUCT SERVICE (Products)
+        # =========================
+        - id: product-service
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/api/products/**
+          filters:
+            - name: CustomRouteFilter
+
+        - id: order-service
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/api/order/**
+          filters:
+            - name: CustomRouteFilter
+
+        - id: payment-service
+          uri: lb://PAYMENT-SERVICE
+          predicates:
+            - Path=/api/payments/**
+          filters:
+            - name: CustomRouteFilter
+
+        - id: webhook-payment-service
+          uri: lb://PAYMENT-SERVICE
+          predicates:
+            - Path=/api/payment/**
+          filters:
+            - name: CustomRouteFilter
+
+        # =========================
+        # CATEGORY SERVICE (or same product-service)
+        # =========================
+        - id: category-service
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/api/category/**
+          filters:
+            - name: CustomRouteFilter
+
+        # =========================
+        # PRODUCT IMAGES (STATIC FILES)
+        # =========================
+        - id: product-image-service
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/products/images/**
+          filters:
+            - StripPrefix=1
+
+        # =========================
+        # ACTUATOR (optional)
+        # =========================
+        - id: actuator
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/actuator/**
+          filters: []
 
 server:
-  port: 8090
+  port: 8080
+
+logging:
+  level:
+    org.springframework.security: TRACE
 
 eureka:
   client:
@@ -26,5 +101,5 @@ eureka:
       defaultZone: http://localhost:8761/eureka
 
 jwt:
-  secret: myverystrongsecretkeyforhs256algorithm12345
+  secret: ${JWT_SECRET}
   expiration-ms: 86400000

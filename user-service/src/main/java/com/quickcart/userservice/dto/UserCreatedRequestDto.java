@@ -1,5 +1,6 @@
 package com.quickcart.userservice.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
@@ -23,4 +24,6 @@ public class UserCreatedRequestDto {
     @Size(min = 6,message = "password must be at least 6 characters")
     private String password;
     private String mobileNo;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String role;
 }

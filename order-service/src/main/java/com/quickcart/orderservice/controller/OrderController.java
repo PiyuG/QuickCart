@@ -6,10 +6,9 @@ import com.quickcart.orderservice.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/order")
@@ -19,7 +18,20 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<OrderResponse> placeOrder(@RequestBody OrderRequest orderRequest){
-        OrderResponse response=orderService.placeOrder(orderRequest);
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        String userId=authentication.getName();
+        OrderResponse response=orderService.placeOrder(orderRequest, userId);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    @PostMapping("/{orderId}/confirm")
+    public void confirmOrder(@PathVariable String orderId){
+        orderService.confirmedOrder(orderId);
+    }
+
+    @PostMapping("/{orderId}/fail")
+    public void failOrder(@PathVariable String orderId){
+        orderService.failOrder(orderId);
+    }
+
 }

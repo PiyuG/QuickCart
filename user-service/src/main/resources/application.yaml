@@ -4,17 +4,29 @@ spring:
 
     data:
       mongodb:
-        uri: mongodb://localhost:27017/user_service_db
+        uri: ${USER_DB}
 app:
   jwt:
-    secret: myverystrongsecretkeyforhs256algorithm12345
+    secret: ${JWT_SECRET}
     expiration-ms: 86400000
+
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
 
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
-
+logging:
+  level:
+    org.springframework.security: DEBUG
 
 server:
   port: 8082

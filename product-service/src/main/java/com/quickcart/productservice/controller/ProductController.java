@@ -76,7 +76,7 @@ public class ProductController {
         return ResponseEntity.ok(productService.advanceFilter(keyword, categoryId, minPrice, maxPrice, page, size, sortBy, sortDir));
     }
 
-    @PostMapping("/{id}/upload.image")
+    @PostMapping("/{id}/upload-image")
     public ResponseEntity<ProductDto> uploadImage(@PathVariable Long id,
                                                   @RequestParam("file") MultipartFile file) throws IOException {
         return ResponseEntity.ok(productService.uploadImage(id, file));

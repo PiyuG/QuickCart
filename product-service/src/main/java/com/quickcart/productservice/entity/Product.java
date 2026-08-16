@@ -22,6 +22,7 @@ public class Product {
     private String description;
     @Column(nullable = false)
     private Double price;
+    private String skuCode;
     private Double discountPrice;
     private int quantity;
     private String brand;

@@ -24,4 +24,7 @@ public class InventoryController {
         inventoryService.addInventory(inventoryRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body("Inventory Added Successfully.");
     }
+
+
+
 }

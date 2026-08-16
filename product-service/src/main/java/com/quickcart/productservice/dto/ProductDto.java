@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ProductDto {
-    private Long id;
     @NotBlank(message = "Product name must be required")
     String name;
     @NotBlank
@@ -26,6 +25,7 @@ public class ProductDto {
     private int quantity;
     private String brand;
     private String imageUrl;
+    private String skuCode;
     @NotNull(message = "category is is required")
     private Long categoryId;
 }

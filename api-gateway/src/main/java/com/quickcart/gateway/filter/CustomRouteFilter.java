@@ -8,18 +8,20 @@ import reactor.core.publisher.Mono;
 @Component
 public class CustomRouteFilter extends AbstractGatewayFilterFactory<Object> {
     public CustomRouteFilter(){
-        super();
+        super(Object.class);
     }
 
     @Override
     public GatewayFilter apply(Object config) {
         return (exchange, chain) -> {
-            System.out.println("Route filter: Before Routing");
             exchange.getRequest().mutate().header("X-Route-Header","Added-By-Gateway")
                     .build();
 
             return chain.filter(exchange).then(Mono.fromRunnable(()->{
-                System.out.println("route filter: After Routing");
+                System.out.println(
+                        "Response Status = "
+                                + exchange.getResponse().getStatusCode()
+                );
             }));
         };
     }

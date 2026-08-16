@@ -10,4 +10,6 @@ import lombok.NoArgsConstructor;
 public class OrderResponse {
     private String orderNumber;
     private String orderStatus;
+    private String skuCode;
+    private Integer quantity;
 }

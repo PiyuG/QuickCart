@@ -32,7 +32,7 @@ public class CategoryController {
         return ResponseEntity.ok("Category deleted successfully.");
     }
 
-    @GetMapping("/{id")
+    @GetMapping("/{id}")
     public ResponseEntity<CategoryDto> getCategory(@PathVariable Long id){
         return ResponseEntity.ok(categoryService.getCategory(id));
     }

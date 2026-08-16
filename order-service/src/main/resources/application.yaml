@@ -2,17 +2,37 @@ spring:
   application:
     name: order-service
 
-    kafka:
-      bootstrap-servers: localhost:9092
+  kafka:
+    bootstrap-servers:  ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
 
-      producer:
-        key-serializer: org.apache.kafka.common.serialization.StringDeserializer
-        value-serializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    producer:
+      group-id: order-group
+      auto-offset-reset: earliest
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+  data:
+    mongodb:
+      uri: ${ORDER_DB}
 
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
+
+app:
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration-ms: 86400000
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
 
 server:
   port: 8084

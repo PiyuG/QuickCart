@@ -38,6 +38,9 @@ public class ProductServiceImpl implements ProductService {
             category.setId(dto.getCategoryId());
         }
         Product product=productMapper.toEntity(dto,category);
+        String skuCode = product.getBrand().substring(0, 3).toUpperCase()
+                + "-" + UUID.randomUUID().toString().substring(0, 8);
+        product.setSkuCode(skuCode);
         Product saved=productRepo.save(product);
         return productMapper.toDto(saved);
     }

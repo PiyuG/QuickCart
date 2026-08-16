@@ -1,100 +1,39 @@
-# ==========================
-# IntelliJ IDEA
-# ==========================
+# Maven
+**/target/
+**/.mvn/wrapper/maven-wrapper.jar
+
+# IntelliJ
 .idea/
 *.iml
-out/
+*.iws
+*.ipr
 
-# ==========================
-# Maven
-# ==========================
-target/
-!.mvn/wrapper/maven-wrapper.jar
+# Eclipse
+.classpath
+.project
+.settings/
 
-# ==========================
-# Java
-# ==========================
-*.class
-*.jar
-*.war
-*.ear
-*.log
-
-# ==========================
-# Spring Boot
-# ==========================
-logs/
-*.log
-spring.log
-
-# ==========================
-# OS Files
-# ==========================
+# OS
 .DS_Store
 Thumbs.db
 
-# ==========================
-# Environment Variables
-# ==========================
+# Logs
+*.log
+logs/
+
+# Environment / secrets
 .env
 .env.*
 application-local.yml
+application-local.yaml
 application-local.properties
 
-# ==========================
-# VS Code
-# ==========================
-.vscode/
+# Uploaded/generated files
+uploads/
 
-# ==========================
-# Eclipse
-# ==========================
-.project
-.classpath
-.settings/
+# Build files
+*.class
 
-# ==========================
-# NetBeans
-# ==========================
-nbproject/private/
-build/
-dist/
-
-# ==========================
-# Temporary Files
-# ==========================
+# Temporary files
 *.tmp
-*.swp
-*~
-
-# ==========================
-# Maven Wrapper (Keep)
-# ==========================
-!.mvn/
-!mvnw
-!mvnw.cmd
-
-# ==========================
-# Generated Reports
-# ==========================
-surefire-reports/
-failsafe-reports/
-
-# ==========================
-# Coverage Reports
-# ==========================
-coverage/
-jacoco.exec
-/site/
-
-# ==========================
-# Docker
-# ==========================
-docker-compose.override.yml
-
-# ==========================
-# Microservice-specific
-# ==========================
-**/target/
-**/logs/
-**/*.log
+*.temp

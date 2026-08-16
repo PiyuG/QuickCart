@@ -20,7 +20,7 @@ public class ImageServerController {
 
     @GetMapping("/products/images/fileName")
     public ResponseEntity<Resource> getImage(@PathVariable String fileName) throws IOException{
-                Path path = Paths.get(uploadDir+fileName);
+                Path path = Paths.get(uploadDir,fileName);
                 Resource resource=new UrlResource(path.toUri());
                 if(!resource.exists()){
                     return ResponseEntity.notFound().build();

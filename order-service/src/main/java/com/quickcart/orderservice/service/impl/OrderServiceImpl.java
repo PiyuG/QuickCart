@@ -4,6 +4,7 @@ import com.quickcart.orderservice.client.InventoryFeignClient;
 import com.quickcart.orderservice.dto.InventoryResponse;
 import com.quickcart.orderservice.dto.OrderRequest;
 import com.quickcart.orderservice.dto.OrderResponse;
+import com.quickcart.orderservice.dto.OrderSkuResponse;
 import com.quickcart.orderservice.entity.Order;
 import com.quickcart.orderservice.event.OrderPlacedEvent;
 import com.quickcart.orderservice.kafka.OrderEventProducer;
@@ -26,7 +27,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderEventProducer orderEventProducer;
 
     @Override
-    public OrderResponse placeOrder(OrderRequest orderRequest) {
+    public OrderResponse placeOrder(OrderRequest orderRequest,String userId) {
         Order order=orderMapper.toEntity(orderRequest);
         InventoryResponse response=inventoryFeignClient.isInStock(orderRequest.getSkuCode());
         if(!response.isInStock()){
@@ -34,6 +35,7 @@ public class OrderServiceImpl implements OrderService {
         }
         String orderId=UUID.randomUUID().toString();
         order.setOrderNumber(orderId);
+        order.setUserId(userId);
         order.setOrderStatus("CREATED");
         orderRepository.save(order);
 
@@ -42,10 +44,30 @@ public class OrderServiceImpl implements OrderService {
         event.setOrderId(orderId);
         event.setSkuCode(orderRequest.getSkuCode());
         event.setQuantity(orderRequest.getQuantity());
-        event.setEventType("ORDER_PLACE");
         event.setEvenTime(LocalDateTime.now());
         orderEventProducer.sendOderEvent(event);
 
         return orderMapper.toResponse(order);
+    }
+
+    @Override
+    public void confirmedOrder(String orderId) {
+        Order order=orderRepository.findByOrderNumber(orderId).orElseThrow(()-> new RuntimeException("OrderId not found"));
+        order.setOrderStatus("CONFIRMED");
+        orderRepository.save(order);
+
+    }
+
+    @Override
+    public void failOrder(String orderId) {
+        Order order=orderRepository.findByOrderNumber(orderId).orElseThrow(()->new RuntimeException("OrderId not found"));
+        order.setOrderStatus("FAILED");
+        orderRepository.save(order);
+    }
+
+    @Override
+    public OrderSkuResponse getSkuCodeAndQuantity(String orderId) {
+        Order order=orderRepository.findByOrderNumber(orderId).orElseThrow(()->new RuntimeException("OrderId not found"));
+        return orderMapper.toSkuResponse(order);
     }
 }

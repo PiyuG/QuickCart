@@ -10,6 +10,5 @@ public class OrderPlacedEvent {
     private String orderId;
     private String skuCode;
     private Integer quantity;
-    private String eventType;
     private LocalDateTime evenTime;
 }

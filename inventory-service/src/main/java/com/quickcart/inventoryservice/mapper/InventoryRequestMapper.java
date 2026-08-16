@@ -3,7 +3,9 @@ package com.quickcart.inventoryservice.mapper;
 import com.quickcart.inventoryservice.dto.InventoryRequest;
 import com.quickcart.inventoryservice.dto.InventoryResponse;
 import com.quickcart.inventoryservice.entity.Inventory;
+import org.springframework.stereotype.Component;
 
+@Component
 public class InventoryRequestMapper {
     public Inventory toEntity(InventoryRequest inventoryRequest){
         Inventory inventory=new Inventory();

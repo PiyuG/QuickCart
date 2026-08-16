@@ -22,11 +22,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         final String authHeader=request.getHeader("Authorization");
-        if(authHeader !=null && authHeader.startsWith("Bearer")){
+        if(authHeader !=null && authHeader.startsWith("Bearer ")){
             final String token=authHeader.substring(7);
             try {
                 jwtUtil.validateToken(token);
-                Long userId= jwtUtil.getUserIdFromToken(token);
+                String userId= jwtUtil.getUserIdFromToken(token);
                 UsernamePasswordAuthenticationToken authentication=new UsernamePasswordAuthenticationToken(userId,null, Collections.emptyList());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }catch (Exception e){

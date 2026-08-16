@@ -3,18 +3,12 @@ package com.quickcart.productservice.mapper;
 import com.quickcart.productservice.dto.ProductDto;
 import com.quickcart.productservice.entity.Category;
 import com.quickcart.productservice.entity.Product;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
-@Data
-@AllArgsConstructor
-@Builder
+@Component
 public class ProductMapper {
     public ProductDto toDto(Product product){
         return ProductDto.builder()
-                .id(product.getId())
                 .name(product.getName())
                 .description(product.getDescription())
                 .price(product.getPrice())
@@ -22,7 +16,10 @@ public class ProductMapper {
                 .quantity(product.getQuantity())
                 .brand(product.getBrand())
                 .imageUrl(product.getImageUrl())
-                .categoryId(product.getCategory().getId())
+                .skuCode(product.getSkuCode())
+                .categoryId(
+                        product.getCategory()!=null ?product.getCategory().getId():null
+                )
                 .build();
     }
 

@@ -28,7 +28,7 @@ public class JwtUtil {
                 .claim("email",email)
                 .claim("role",role)
                 .issuedAt(new Date(now))
-                .expiration(new Date(jwtExpirationMs))
+                .expiration(new Date(now+ jwtExpirationMs))
                 .signWith(key)
                 .compact();
     }
@@ -37,8 +37,8 @@ public class JwtUtil {
         return Jwts.parser().verifyWith(key).build().parseSignedClaims(token);
     }
 
-    public Long getUserIdFromToken(String token){
+    public String getUserIdFromToken(String token){
         Claims claims= validateToken(token).getPayload();
-        return Long.valueOf(claims.getSubject());
+        return claims.getSubject();
     }
 }
